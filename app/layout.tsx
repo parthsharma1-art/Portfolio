@@ -2,9 +2,12 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Parth Sharma | Portfolio',
+  title: 'Parth | Portfolio',
   description: 'Full Stack Developer & Software Engineer. Building scalable web applications and innovative solutions.',
-  keywords: ['Parth Sharma', 'Portfolio', 'Full Stack Developer', 'React', 'Next.js', 'Java']
+  keywords: ['Parth Sharma', 'Portfolio', 'Full Stack Developer', 'React', 'Next.js', 'Java'],
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({
