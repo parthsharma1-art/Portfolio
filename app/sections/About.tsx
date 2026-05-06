@@ -62,8 +62,8 @@ export default function About() {
               <p className="text-slate-400">DSA Problems Solved</p>
             </div>
             <div>
-              <p className="text-4xl font-bold gradient-text mb-2">1+</p>
-              <p className="text-slate-400">Year Professional Experience</p>
+              <p className="text-4xl font-bold gradient-text mb-2">~8+</p>
+              <p className="text-slate-400">months of professional experience</p>
             </div>
           </div>
         </motion.div>

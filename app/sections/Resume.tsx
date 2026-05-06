@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { GraduationCap, Briefcase, Award, Download } from 'lucide-react'
+import { GraduationCap, Briefcase, Award, Download, Eye } from 'lucide-react'
 
 const education = [
   {
@@ -53,9 +53,29 @@ export default function Resume() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             My <span className="gradient-text">Resume</span>
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
+          <p className="text-slate-400 max-w-xl mx-auto mb-6">
             A summary of my academic background, professional experience, and technical expertise.
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="/ParthSharma_SoftwareDeveloper_Resume.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-accent text-accent text-sm font-semibold hover:bg-accent/10 transition-colors"
+            >
+              <Eye size={16} />
+              View Resume
+            </a>
+            <a
+              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareDeveloper_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 transition-colors"
+            >
+              <Download size={16} />
+              Download Resume
+            </a>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">

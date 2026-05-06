@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react'
+import { Github, Linkedin, Mail, ChevronDown, Eye, Download } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -59,12 +59,31 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
             href="#about"
             className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-dark font-semibold hover:bg-sky-300 transition-colors"
           >
             Explore My Work
+          </a>
+          <a
+            href="/ParthSharma_SoftwareDeveloper_Resume.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold hover:bg-accent/10 transition-colors"
+          >
+            <Eye size={18} />
+            View Resume
+          </a>
+          <a
+            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareDeveloper_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 transition-colors"
+          >
+            <Download size={18} />
+            Download Resume
           </a>
         </motion.div>
       </div>
