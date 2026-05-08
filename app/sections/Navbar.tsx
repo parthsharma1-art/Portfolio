@@ -24,7 +24,12 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass py-3' : 'py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="#home" className="text-xl font-bold gradient-text">Parth.</a>
+        <a
+          href="#home"
+          className="text-base font-semibold tracking-[0.2em] text-slate-400 hover:text-slate-200 transition-colors duration-300 uppercase"
+        >
+          PS.
+        </a>
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a

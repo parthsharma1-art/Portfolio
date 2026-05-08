@@ -1,9 +1,27 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Github, Linkedin, Mail, ChevronDown, Eye, Download } from 'lucide-react'
 
+const roles = [
+  'Software Engineer',
+  'Java Developer',
+  'Backend Developer',
+  'Full Stack Developer',
+  'Spring Boot Developer',
+]
+
 export default function Hero() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % roles.length)
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/10 via-dark to-dark" />
@@ -16,13 +34,24 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <p className="text-accent text-lg mb-4 tracking-wide">Hello, I am</p>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-4">
+          <p className="text-accent text-lg mb-3 tracking-wide">Hello, I am</p>
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-6">
             <span className="gradient-text">Parth Sharma</span>
           </h1>
-          <p className="text-xl md:text-2xl text-slate-400 mb-8 font-light">
-            Full Stack Developer & Software Engineer
-          </p>
+          <div className="h-8 md:h-10 flex items-center justify-center mb-10 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={roles[index]}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="text-xl md:text-2xl text-slate-400 font-light whitespace-nowrap absolute"
+              >
+                {roles[index]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
         </motion.div>
 
         <motion.div
