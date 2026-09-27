@@ -168,7 +168,7 @@ export default function About() {
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <AnimatedStat value="6+" label="Projects Completed" />
             <AnimatedStat value="80+" label="LeetCode Problems" />
-            <AnimatedStat value="8+" label="Months Experience" />
+            <AnimatedStat value="1" label="Year Experience" />
           </div>
         </motion.div>
       </div>

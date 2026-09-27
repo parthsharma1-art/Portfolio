@@ -73,6 +73,7 @@ interface TimelineItem {
   desc: string[] | string
   color: string
   dotColor: string
+  link?: { text: string; url: string }
 }
 
 function TimelineSection({
@@ -138,7 +139,7 @@ function TimelineSection({
                   </span>
                   <h4 className="text-base font-semibold mt-2 mb-0.5">{heading}</h4>
                   <p className="text-slate-400 text-sm mb-3">{sub}</p>
-                  <ul className="space-y-1.5">
+                  <ul className="space-y-1.5 mb-3">
                     {bullets.map((b, idx) => (
                       <li key={idx} className="text-slate-400 text-sm flex items-start gap-2">
                         <span className="text-accent mt-1 shrink-0">▸</span>
@@ -146,6 +147,17 @@ function TimelineSection({
                       </li>
                     ))}
                   </ul>
+                  {item.link && (
+                    <a
+                      href={item.link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors mt-2 bg-indigo-500/10 px-3 py-1.5 rounded-md w-fit"
+                    >
+                      <Eye size={14} />
+                      {item.link.text}
+                    </a>
+                  )}
                 </motion.div>
               </motion.div>
             )
