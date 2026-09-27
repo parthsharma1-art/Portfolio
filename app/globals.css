@@ -12,32 +12,152 @@ body {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
+/* ── Scrollbar ─────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
+
+/* ── Scroll-progress bar ───────────────────── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  z-index: 9999;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
 }
 
-::-webkit-scrollbar-track {
-  background: #0f172a;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #38bdf8;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #0ea5e9;
-}
-
+/* ── Glass ─────────────────────────────────── */
 .glass {
   background: rgba(30, 41, 59, 0.6);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(56, 189, 248, 0.1);
 }
 
+/* ── Gradient text ─────────────────────────── */
 .gradient-text {
   background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ── Shimmer text ──────────────────────────── */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #38bdf8 0%,
+    #818cf8 30%,
+    #f0abfc 50%,
+    #818cf8 70%,
+    #38bdf8 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ── Timeline ──────────────────────────────── */
+.timeline-line {
+  position: absolute;
+  left: 1.25rem;
+  top: 2rem;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #38bdf8, #818cf8, transparent);
+}
+
+/* ── Floating label inputs ─────────────────── */
+.float-label-group {
+  position: relative;
+}
+
+.float-label-group input,
+.float-label-group textarea {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.float-label-group label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.float-label-group textarea ~ label {
+  top: 1.25rem;
+  transform: none;
+}
+
+.float-label-group input:focus ~ label,
+.float-label-group input:not(:placeholder-shown) ~ label,
+.float-label-group textarea:focus ~ label,
+.float-label-group textarea:not(:placeholder-shown) ~ label {
+  top: 0.4rem;
+  transform: none;
+  font-size: 0.7rem;
+  color: #38bdf8;
+}
+
+/* ── Glow button ───────────────────────────── */
+.btn-glow {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+}
+
+/* ── Skill bar ─────────────────────────────── */
+.skill-bar-fill {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  transform-origin: left;
+}
+
+/* ── Star particles (Hero) ─────────────────── */
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ── Project card shine overlay ────────────── */
+.card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(56, 189, 248, 0.06),
+    transparent 40%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.group:hover .card-shine { opacity: 1; }
+
+/* ── Status badge pulse ────────────────────── */
+@keyframes badge-ping {
+  0% { transform: scale(1); opacity: 0.8; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.badge-ping {
+  animation: badge-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 }

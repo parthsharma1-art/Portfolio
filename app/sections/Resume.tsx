@@ -1,48 +1,166 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { GraduationCap, Briefcase, Award, Download, Eye } from 'lucide-react'
-
-const education = [
-  {
-    degree: 'B.Tech in Computer Science Engineering',
-    school: 'IMS Engineering College, Ghaziabad, UP',
-    year: '2022 - 2026',
-    desc: 'CGPA: 8.0. Focused on software development, algorithms, data structures, and system design.'
-  },
-  {
-    degree: 'Class XII (Senior Secondary)',
-    school: 'Vidya Bhawan Public School, Baghpat, UP',
-    year: '2021 - 2022',
-    desc: 'Percentage: 89%.'
-  }
-]
 
 const experience = [
   {
-    role: 'Backend Engineer',
-    company: 'AetherAI, Inc. (Remote)',
-    url: 'https://aetheraiapp.com',
-    year: 'Nov 2025 - Present',
-    desc: 'Developing and maintaining scalable backend services using Java and Spring Boot for a production SaaS platform. Designing and enhancing RESTful APIs. Fixing production bugs, improving performance, and ensuring backend reliability. Collaborating with product managers and frontend engineers in Agile/Scrum ceremonies.'
+    role: 'Backend Engineer (Paid)',
+    company: 'AetherAI, Inc.',
+    year: 'Nov 2025 – Jul 2026',
+    desc: [
+      'Developed and maintained production Java 21 and Spring Boot backend services for a vehicle-rental SaaS platform.',
+      'Designed REST APIs and integrations with Mailgun, Gmail, and Outlook.',
+      'Implemented event-driven webhooks, an email synchronization pipeline in MongoDB, and a cash-booking workflow.',
+      'Secured APIs with Google and Apple OAuth 2.0, JWT, and Redis.',
+    ],
+    color: 'bg-indigo-500',
+    dotColor: 'border-indigo-500',
   },
   {
-    role: 'Backend Engineering Intern',
-    company: 'AetherAI, Inc. (Remote)',
-    url: 'https://aetheraiapp.com',
-    year: 'Jul 2025 - Oct 2025',
-    desc: 'Contributed to backend development using Java and Spring Boot. Built and tested REST APIs used in the company\'s SaaS product. Assisted in backend QA testing, debugging, and issue resolution in an Agile environment.'
-  }
+    role: 'Backend Engineer Intern (Unpaid)',
+    company: 'AetherAI, Inc.',
+    year: 'Jul 2025 – Nov 2025',
+    desc: [
+      'Authored Playwright end-to-end tests for authentication, onboarding, booking, and checkout workflows.',
+      'Diagnosed production issues using AWS CloudWatch.',
+    ],
+    color: 'bg-accent',
+    dotColor: 'border-accent',
+  },
+]
+
+const education = [
+  {
+    degree: 'B.Tech. in Computer Science and Engineering',
+    school: 'IMS Engineering College, Ghaziabad',
+    year: 'Graduated May 2026',
+    desc: 'CGPA: 8.0 / 10.0',
+    color: 'bg-accent',
+    dotColor: 'border-accent',
+  },
+  {
+    degree: 'Class XII (CBSE)',
+    school: 'Vidya Bhawan Public School, Baghpat',
+    year: '2021 – 2022',
+    desc: 'Percentage: 89%',
+    color: 'bg-violet-500',
+    dotColor: 'border-violet-500',
+  },
+]
+
+const skills = [
+  'Java', 'Python', 'JavaScript', 'SQL',
+  'Spring Boot', 'Spring Data JPA', 'Hibernate', 'REST APIs', 'Webhooks',
+  'MongoDB', 'MongoDB Atlas', 'MySQL', 'Redis',
+  'Spring Security', 'OAuth 2.0', 'JWT',
+  'Playwright', 'Postman', 'Git', 'Jira',
+  'AWS CloudWatch', 'Spring AI', 'LangChain', 'RAG', 'Vector Search',
 ]
 
 const achievements = [
-  'Solved 80+ DSA problems on LeetCode, GeeksforGeeks, and HackerRank'
+  'Solved 80+ Data Structures & Algorithms problems across LeetCode, GeeksforGeeks, and HackerRank.',
+  'Completed Java Programming and Web Development Certification, CETPA (2023).',
 ]
+
+interface TimelineItem {
+  role?: string
+  degree?: string
+  company?: string
+  school?: string
+  year: string
+  desc: string[] | string
+  color: string
+  dotColor: string
+}
+
+function TimelineSection({
+  title,
+  icon: Icon,
+  items,
+}: {
+  title: string
+  icon: typeof Briefcase
+  items: TimelineItem[]
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+
+  return (
+    <div ref={ref}>
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+          <Icon size={22} className="text-accent" />
+        </div>
+        <h3 className="text-xl font-bold">{title}</h3>
+      </div>
+
+      <div className="relative pl-8">
+        {/* Vertical line */}
+        <motion.div
+          initial={{ scaleY: 0 }}
+          animate={inView ? { scaleY: 1 } : {}}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          style={{ transformOrigin: 'top' }}
+          className="absolute left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-accent via-indigo-500 to-transparent"
+        />
+
+        <div className="space-y-8">
+          {items.map((item, i) => {
+            const heading = item.role ?? item.degree ?? ''
+            const sub = item.company ?? item.school ?? ''
+            const bullets = Array.isArray(item.desc) ? item.desc : [item.desc]
+
+            return (
+              <motion.div
+                key={heading}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: i * 0.18 + 0.2, duration: 0.5 }}
+                className="relative"
+              >
+                {/* Timeline dot */}
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={inView ? { scale: 1 } : {}}
+                  transition={{ delay: i * 0.18 + 0.1, type: 'spring', stiffness: 300 }}
+                  className={`absolute -left-5 top-1.5 w-4 h-4 rounded-full border-2 ${item.dotColor} bg-dark`}
+                />
+
+                <motion.div
+                  whileHover={{ x: 6 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  className="glass rounded-xl p-5 border border-transparent hover:border-accent/20 transition-colors"
+                >
+                  <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+                    {item.year}
+                  </span>
+                  <h4 className="text-base font-semibold mt-2 mb-0.5">{heading}</h4>
+                  <p className="text-slate-400 text-sm mb-3">{sub}</p>
+                  <ul className="space-y-1.5">
+                    {bullets.map((b, idx) => (
+                      <li key={idx} className="text-slate-400 text-sm flex items-start gap-2">
+                        <span className="text-accent mt-1 shrink-0">▸</span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Resume() {
   return (
     <section id="resume" className="py-24 px-6 relative bg-primary/30">
       <div className="max-w-6xl mx-auto">
+        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,112 +175,76 @@ export default function Resume() {
             A summary of my academic background, professional experience, and technical expertise.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a
-              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareDeveloper_Resume.pdf"
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-accent text-accent text-sm font-semibold hover:bg-accent/10 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-accent text-accent text-sm font-semibold hover:bg-accent/10 transition-colors shadow-[0_0_15px_rgba(56,189,248,0.3)]"
             >
-              <Eye size={16} />
-              View Resume
-            </a>
-            <a
-              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareDeveloper_Resume.pdf"
+              <Eye size={16} /> View Resume
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 transition-colors shadow-lg"
             >
-              <Download size={16} />
-              Download Resume
-            </a>
+              <Download size={16} /> Download
+            </motion.a>
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <GraduationCap size={28} className="text-accent" />
-              <h3 className="text-xl font-bold">Education</h3>
-            </div>
-            <div className="space-y-6">
-              {education.map((edu) => (
-                <div key={edu.degree} className="glass rounded-xl p-6 border-l-4 border-accent">
-                  <span className="text-accent text-sm font-medium">{edu.year}</span>
-                  <h4 className="text-lg font-semibold mt-1">{edu.degree}</h4>
-                  <p className="text-slate-400 text-sm">{edu.school}</p>
-                  <p className="text-slate-500 text-sm mt-2">{edu.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <Briefcase size={28} className="text-accent" />
-              <h3 className="text-xl font-bold">Experience</h3>
-            </div>
-            <div className="space-y-6">
-              {experience.map((exp) => (
-                <div key={exp.role} className="glass rounded-xl p-6 border-l-4 border-indigo-500">
-                  <span className="text-indigo-400 text-sm font-medium">{exp.year}</span>
-                  <h4 className="text-lg font-semibold mt-1">{exp.role}</h4>
-                  {exp.url ? (
-                    <a href={exp.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 text-sm hover:text-accent transition-colors underline underline-offset-2">
-                      {exp.company}
-                    </a>
-                  ) : (
-                    <p className="text-slate-400 text-sm">{exp.company}</p>
-                  )}
-                  <p className="text-slate-500 text-sm mt-2">{exp.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+        {/* Timeline columns */}
+        <div className="grid md:grid-cols-2 gap-12">
+          <TimelineSection
+            title="Experience"
+            icon={Briefcase}
+            items={experience as TimelineItem[]}
+          />
+          <TimelineSection
+            title="Education"
+            icon={GraduationCap}
+            items={education as TimelineItem[]}
+          />
         </div>
 
+        {/* Skills & achievements */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-12"
+          className="mt-14"
         >
           <div className="flex items-center gap-3 mb-6">
-            <Award size={28} className="text-accent" />
-            <h3 className="text-xl font-bold">Skills, Tools & Achievements</h3>
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+              <Award size={22} className="text-accent" />
+            </div>
+            <h3 className="text-xl font-bold">Skills, Tools &amp; Achievements</h3>
           </div>
           <div className="glass rounded-xl p-6">
-            <div className="flex flex-wrap gap-3 mb-6">
-              {[
-                'Java', 'Spring Boot', 'Spring Security', 'REST APIs', 'JPA/Hibernate',
-                'React.js', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS',
-                'Python', 'MongoDB', 'MySQL', 'Git', 'GitHub',
-                'Postman', 'IntelliJ IDEA', 'VS Code', 'Agile/Scrum', 'DSA'
-              ].map((skill) => (
-                <span
+            <div className="flex flex-wrap gap-2 mb-6">
+              {skills.map((skill) => (
+                <motion.span
                   key={skill}
-                  className="px-4 py-2 rounded-full bg-slate-800 text-slate-300 text-sm border border-slate-700 hover:border-accent hover:text-accent transition-colors"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  className="px-3 py-1.5 rounded-full bg-slate-800/80 text-slate-300 text-xs border border-slate-700
+                             hover:border-accent hover:text-accent hover:shadow-[0_0_10px_rgba(56,189,248,0.25)] transition-all cursor-default"
                 >
                   {skill}
-                </span>
+                </motion.span>
               ))}
             </div>
-            <div className="border-t border-slate-700 pt-4 mt-4">
-              <p className="text-slate-400 text-sm mb-2 font-medium">Achievements</p>
+            <div className="border-t border-slate-700/50 pt-4">
+              <p className="text-slate-500 text-xs uppercase tracking-wider mb-3">Achievements</p>
               <ul className="space-y-2">
                 {achievements.map((ach, i) => (
                   <li key={i} className="text-slate-300 text-sm flex items-start gap-2">
-                    <span className="text-accent mt-1">&#9679;</span>
+                    <span className="text-accent mt-0.5">▸</span>
                     {ach}
                   </li>
                 ))}
