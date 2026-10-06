@@ -190,7 +190,7 @@ export default function Resume() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
+              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-accent text-accent text-sm font-semibold hover:bg-accent/10 transition-colors shadow-[0_0_15px_rgba(56,189,248,0.3)]"
@@ -200,7 +200,7 @@ export default function Resume() {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
+              href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-800 text-slate-300 text-sm font-semibold hover:bg-slate-700 transition-colors shadow-lg"

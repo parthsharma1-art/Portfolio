@@ -33,6 +33,19 @@ const projects: Project[] = [
     gradient: 'from-sky-500/20 to-indigo-500/20',
   },
   {
+    name: 'URL-Based RAG System',
+    description:
+      'Document ingestion and retrieval-augmented generation engine powered by Spring Boot, LangChain4j, and MongoDB Atlas Vector Search.',
+    longDesc:
+      'A robust Retrieval-Augmented Generation (RAG) backend engine designed for multi-source knowledge retrieval. Automatically ingests, parses, and cleans content from diverse URL formats (HTML, PDF, DOCX, TXT, Google Drive) using Jsoup, Apache PDFBox, and Apache POI. Chunks and embeds documents using LangChain4j and Spring AI, storing vector embeddings in MongoDB Atlas Vector Search. Integrates Gemini LLM for high-accuracy contextual question-answering with verifiable source attribution.',
+    tags: ['Java 21', 'Spring Boot', 'LangChain4j', 'Spring AI', 'MongoDB Atlas', 'Vector Search', 'Gemini LLM', 'REST APIs'],
+    category: ['Backend', 'Java'],
+    github: 'https://github.com/parthsharma1-art/URL-based-RAG-system',
+    demo: null,
+    icon: '⚡',
+    gradient: 'from-cyan-500/20 to-blue-500/20',
+  },
+  {
     name: 'Journal App',
     description:
       'Spring Boot journaling application with full CRUD and role-based authentication via Spring Security.',

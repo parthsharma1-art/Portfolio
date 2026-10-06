@@ -127,6 +127,21 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+          {/* Profile Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="relative mx-auto mb-6 w-32 h-32 md:w-36 md:h-36 group"
+          >
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-indigo-500 to-sky-400 opacity-60 blur-md group-hover:opacity-100 transition duration-500 animate-pulse-slow" />
+            <img
+              src="https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo.png"
+              alt="Parth Sharma"
+              className="relative w-full h-full object-cover rounded-full border-2 border-accent/40 shadow-2xl shadow-accent/20 transition-transform duration-300 group-hover:scale-105"
+            />
+          </motion.div>
+
           {/* Available badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -204,7 +219,7 @@ export default function Hero() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
+            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold hover:bg-accent/10 transition-colors"
@@ -215,7 +230,7 @@ export default function Hero() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendEngineer_Resume.pdf?updatedAt=1790492787825"
+            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 transition-colors shadow-lg"
