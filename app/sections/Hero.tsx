@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { Github, Linkedin, Mail, ChevronDown, Eye, Download } from 'lucide-react'
+import { PRIMARY_RESUME, downloadResumeFile } from '../config/resumes'
 
 const roles = [
   'Software Engineer',
@@ -219,9 +220,10 @@ export default function Hero() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
+            href={PRIMARY_RESUME.url}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="View Java Backend Resume in new tab"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold hover:bg-accent/10 transition-colors"
           >
             <Eye size={18} />
@@ -230,9 +232,8 @@ export default function Hero() {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://ik.imagekit.io/xuh3db9z6/ParthSharma_BackendDeveloper_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#resume"
+            aria-label="View and download resumes"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 transition-colors shadow-lg"
           >
             <Download size={18} />
