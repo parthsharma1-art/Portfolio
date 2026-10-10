@@ -1,256 +1,314 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Github, Linkedin, Mail, ChevronDown, Eye, Download } from 'lucide-react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import {
+  MapPin,
+  ArrowRight,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  Server,
+  Database,
+  Layers,
+  ShieldCheck,
+  Zap,
+  Activity,
+  CheckCircle2,
+} from 'lucide-react'
 import { PRIMARY_RESUME, downloadResumeFile } from '../config/resumes'
 
-const roles = [
-  'Software Engineer',
-  'Java Developer',
-  'Backend Developer',
-  'Full Stack Developer',
-  'Spring Boot Developer',
-]
-
-// Deterministic star data so SSR and client match (no Math.random in render)
-const STARS = Array.from({ length: 80 }, (_, i) => ({
-  id: i,
-  top: ((i * 137.508) % 100).toFixed(2),   // golden-angle distribution
-  left: ((i * 97.111) % 100).toFixed(2),
-  size: (((i * 31) % 3) + 1).toFixed(1),   // 1–3 px
-  duration: (3 + ((i * 17) % 4)).toFixed(1),
-  delay: ((i * 0.23) % 3).toFixed(2),
-  opacity: (0.2 + ((i * 7) % 6) / 10).toFixed(2),
-}))
-
 export default function Hero() {
-  const [index, setIndex] = useState(0)
-  const [displayed, setDisplayed] = useState('')
-  const [isDeleting, setIsDeleting] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
 
-  // Mouse-parallax for glow blobs
-  const mouseX = useMotionValue(0.5)
-  const mouseY = useMotionValue(0.5)
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 })
-
-  const blob1X = useTransform(springX, [0, 1], ['-8%', '8%'])
-  const blob1Y = useTransform(springY, [0, 1], ['-8%', '8%'])
-  const blob2X = useTransform(springX, [0, 1], ['8%', '-8%'])
-  const blob2Y = useTransform(springY, [0, 1], ['8%', '-8%'])
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!containerRef.current) return
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect()
-    mouseX.set((e.clientX - left) / width)
-    mouseY.set((e.clientY - top) / height)
-  }, [mouseX, mouseY])
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    el.addEventListener('mousemove', handleMouseMove)
-    return () => el.removeEventListener('mousemove', handleMouseMove)
-  }, [handleMouseMove])
-
-  // Typewriter effect
-  useEffect(() => {
-    const current = roles[index]
-    let timeout: ReturnType<typeof setTimeout>
-
-    if (!isDeleting && displayed.length < current.length) {
-      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80)
-    } else if (!isDeleting && displayed.length === current.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 1800)
-    } else if (isDeleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 45)
-    } else if (isDeleting && displayed.length === 0) {
-      setIsDeleting(false)
-      setIndex((prev) => (prev + 1) % roles.length)
-    }
-
-    return () => clearTimeout(timeout)
-  }, [displayed, isDeleting, index])
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    await downloadResumeFile(PRIMARY_RESUME.url, PRIMARY_RESUME.filename)
+    setIsDownloading(false)
+  }
 
   return (
     <section
       id="home"
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[92vh] pt-32 pb-20 px-4 sm:px-6 flex flex-col justify-center overflow-hidden bg-grid-pattern"
     >
-      {/* Radial bg */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/10 via-dark to-dark" />
+      {/* Background Soft Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-accent/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-[400px] h-[250px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Parallax glow blobs */}
-      <motion.div
-        style={{ x: blob1X, y: blob1Y }}
-        className="absolute top-1/4 left-1/4 w-72 h-72 bg-accent/20 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"
-      />
-      <motion.div
-        style={{ x: blob2X, y: blob2Y }}
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"
-      />
-
-      {/* Stars */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {STARS.map((s) => (
-          <span
-            key={s.id}
-            className="star"
-            style={{
-              top: `${s.top}%`,
-              left: `${s.left}%`,
-              width: `${s.size}px`,
-              height: `${s.size}px`,
-              opacity: parseFloat(s.opacity),
-              '--duration': `${s.duration}s`,
-              '--delay': `${s.delay}s`,
-            } as React.CSSProperties}
-          />
-        ))}
-      </div>
-
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(56,189,248,1) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }}
-      />
-
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Profile Photo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.15, duration: 0.6 }}
-            className="relative mx-auto mb-6 w-32 h-32 md:w-36 md:h-36 group"
-          >
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-indigo-500 to-sky-400 opacity-60 blur-md group-hover:opacity-100 transition duration-500 animate-pulse-slow" />
-            <img
-              src="https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo.png"
-              alt="Parth Sharma"
-              className="relative w-full h-full object-cover rounded-full border-2 border-accent/40 shadow-2xl shadow-accent/20 transition-transform duration-300 group-hover:scale-105"
-            />
-          </motion.div>
-
-          {/* Available badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-accent/20 text-sm text-slate-400 mb-6"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="badge-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
-            </span>
-            Open to opportunities
-          </motion.div>
-
-          <p className="text-accent text-lg mb-3 tracking-wide">Hello, I am</p>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6">
-            <span className="shimmer-text">Parth Sharma</span>
-          </h1>
-
-          {/* Typewriter role */}
-          <div className="h-9 md:h-11 flex items-center justify-center mb-10">
-            <span className="text-xl md:text-2xl text-slate-300 font-mono font-light tracking-wide">
-              {displayed}
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ repeat: Infinity, duration: 0.6, ease: 'linear' }}
-                className="inline-block w-0.5 h-6 bg-accent ml-0.5 align-middle"
-              />
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Social links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="flex items-center justify-center gap-6 mb-12"
-        >
-          {[
-            { href: 'https://github.com/parthsharma1-art', icon: Github, label: 'GitHub' },
-            { href: 'https://www.linkedin.com/in/parth-sharma-47a116292/', icon: Linkedin, label: 'LinkedIn' },
-            { href: 'mailto:parthsharma2640@gmail.com', icon: Mail, label: 'Email' },
-          ].map(({ href, icon: Icon, label }) => (
-            <motion.a
-              key={label}
-              whileHover={{ scale: 1.15, y: -3 }}
-              whileTap={{ scale: 0.92 }}
-              href={href}
-              target={href.startsWith('http') ? '_blank' : undefined}
-              rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              aria-label={label}
-              className="p-3 rounded-full glass hover:bg-accent/20 hover:border-accent/40 transition-all animate-glow-pulse"
+      <div className="max-w-6xl mx-auto w-full relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Editorial Headline & Actions */}
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
+            {/* Status & Availability Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass border border-emerald-500/30 text-xs text-slate-300 mb-6 shadow-sm"
             >
-              <Icon size={22} className="text-slate-300 hover:text-accent transition-colors" />
-            </motion.a>
-          ))}
-        </motion.div>
+              <span className="relative flex h-2 w-2">
+                <span className="badge-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              </span>
+              <span className="font-medium text-emerald-400">
+                Open to Java Backend Opportunities
+              </span>
+            </motion.div>
 
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="#about"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-accent text-dark font-semibold btn-glow hover:bg-sky-300 transition-colors"
-          >
-            Explore My Work
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href={PRIMARY_RESUME.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View Java Backend Resume in new tab"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-accent text-accent font-semibold hover:bg-accent/10 transition-colors"
-          >
-            <Eye size={18} />
-            View Resume
-          </motion.a>
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="#resume"
-            aria-label="View and download resumes"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-800 text-slate-300 font-semibold hover:bg-slate-700 transition-colors shadow-lg"
-          >
-            <Download size={18} />
-            Download
-          </motion.a>
-        </motion.div>
+            {/* Profile Avatar & Location Pill */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="flex items-center gap-3.5 mb-6"
+            >
+              <div className="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-accent to-indigo-500 shadow-lg">
+                <img
+                  src="https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo.png"
+                  alt="Parth Sharma"
+                  className="w-full h-full object-cover rounded-full bg-slate-900"
+                />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-wider font-mono text-slate-400">
+                  Parth Sharma
+                </p>
+                <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <MapPin size={13} className="text-accent" />
+                  <span>Noida / Ghaziabad, India</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Main Editorial Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-slate-100 mb-6 font-sans"
+            >
+              Building Reliable{' '}
+              <span className="gradient-text">Backend Systems.</span>
+            </motion.h1>
+
+            {/* Supporting Bio Text */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-xl mb-8"
+            >
+              I&apos;m Parth Sharma, a Java Backend Developer focused on building
+              secure REST APIs, scalable backend services, authentication systems,
+              and reliable application workflows.
+            </motion.p>
+
+            {/* Core Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto mb-10"
+            >
+              <a
+                href="#projects"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-accent text-dark font-semibold text-sm hover:bg-sky-300 transition-colors btn-glow cursor-pointer text-center"
+              >
+                <span>Explore My Work</span>
+                <ArrowRight size={16} />
+              </a>
+
+              <button
+                type="button"
+                onClick={handleDownload}
+                disabled={isDownloading}
+                aria-label="Download Java Backend Resume"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full glass text-slate-200 hover:text-white hover:border-accent/40 font-semibold text-sm transition-all cursor-pointer shadow-sm disabled:opacity-50 text-center"
+              >
+                <Download size={16} className="text-accent" />
+                <span>{isDownloading ? 'Downloading...' : 'Download Resume'}</span>
+              </button>
+            </motion.div>
+
+            {/* Social & Contact Strip */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="flex items-center gap-4 text-slate-400"
+            >
+              <span className="text-xs uppercase tracking-wider font-mono text-slate-500">
+                Connect
+              </span>
+              <div className="h-3.5 w-[1px] bg-white/10" />
+              <a
+                href="https://github.com/parthsharma1-art"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub Profile"
+                className="p-2 rounded-full hover:bg-white/5 hover:text-accent transition-colors"
+              >
+                <Github size={18} />
+              </a>
+              <a
+                href="https://linkedin.com/in/parth-sharma-47a116292/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
+                className="p-2 rounded-full hover:bg-white/5 hover:text-accent transition-colors"
+              >
+                <Linkedin size={18} />
+              </a>
+              <a
+                href="mailto:parthsharma2640@gmail.com"
+                aria-label="Send Email"
+                className="p-2 rounded-full hover:bg-white/5 hover:text-accent transition-colors"
+              >
+                <Mail size={18} />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Backend Architecture Interactive Visualization */}
+          <div className="lg:col-span-5 w-full">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              className="glass-card rounded-2xl p-4 sm:p-7 relative border border-white/10 shadow-2xl overflow-hidden"
+            >
+              {/* Architecture Header */}
+              <div className="flex items-center justify-between pb-4 mb-4 sm:mb-5 border-b border-white/[0.08]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-xs font-mono font-semibold tracking-wide uppercase text-slate-300">
+                    Backend Architecture
+                  </span>
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Status: 200 OK · 11ms
+                </span>
+              </div>
+
+              {/* Architecture Nodes Flow */}
+              <div className="space-y-3 sm:space-y-3.5 relative">
+                {/* 1. Inbound Request & Auth Layer */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-surface/80 border border-white/[0.06] hover:border-accent/30 transition-all">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-sky-500/10 text-accent flex items-center justify-center shrink-0">
+                      <Zap size={17} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-slate-200 truncate">
+                        Inbound API Request
+                      </p>
+                      <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono truncate">
+                        HTTPS · REST API · JWT Validated
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded shrink-0 ml-2">
+                    OAuth 2.0
+                  </span>
+                </div>
+
+                {/* Animated Connecting Arrow */}
+                <div className="flex justify-center -my-1 text-accent/60">
+                  <div className="w-0.5 h-3 bg-gradient-to-b from-accent to-indigo-500 rounded-full" />
+                </div>
+
+                {/* 2. Spring Boot Core Services */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-surface/80 border border-indigo-500/30 shadow-sm hover:border-indigo-500/60 transition-all">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center shrink-0">
+                      <Server size={17} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-slate-200 truncate">
+                        Spring Boot Service Layer
+                      </p>
+                      <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono truncate">
+                        Java 21 · Spring Security · Booking Logic
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 shrink-0 ml-2">
+                    Core App
+                  </span>
+                </div>
+
+                {/* Animated Connecting Arrow */}
+                <div className="flex justify-center -my-1 text-accent/60">
+                  <div className="w-0.5 h-3 bg-gradient-to-b from-indigo-500 to-rose-500 rounded-full" />
+                </div>
+
+                {/* 3. Redis Distributed Lock & Cache */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-surface/80 border border-rose-500/20 hover:border-rose-500/40 transition-all">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0">
+                      <Layers size={17} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-slate-200 truncate">
+                        Redis Concurrency Lock
+                      </p>
+                      <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono truncate">
+                        Distributed Lock · Cache Hit &lt;2ms
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20 shrink-0 ml-2">
+                    Atomic
+                  </span>
+                </div>
+
+                {/* Animated Connecting Arrow */}
+                <div className="flex justify-center -my-1 text-accent/60">
+                  <div className="w-0.5 h-3 bg-gradient-to-b from-rose-500 to-emerald-500 rounded-full" />
+                </div>
+
+                {/* 4. MongoDB Persistent Store */}
+                <div className="flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-surface/80 border border-emerald-500/20 hover:border-emerald-500/40 transition-all">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                      <Database size={17} />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-slate-200 truncate">
+                        MongoDB &amp; GridFS
+                      </p>
+                      <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono truncate">
+                        Transactional Data · File Document Storage
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0 ml-2">
+                    Persistence
+                  </span>
+                </div>
+              </div>
+
+              {/* Architecture Bottom Stats */}
+              <div className="mt-5 pt-3 border-t border-white/[0.08] grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-[11px] text-slate-500 uppercase font-mono">Runtime</p>
+                  <p className="text-xs font-semibold text-slate-200">Java 21 LTS</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-500 uppercase font-mono">Framework</p>
+                  <p className="text-xs font-semibold text-accent">Spring Boot</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-slate-500 uppercase font-mono">Security</p>
+                  <p className="text-xs font-semibold text-emerald-400">JWT + OAuth</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
-
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-      >
-        <a href="#about" className="text-slate-500 hover:text-accent transition-colors">
-          <ChevronDown size={32} />
-        </a>
-      </motion.div>
     </section>
   )
 }
