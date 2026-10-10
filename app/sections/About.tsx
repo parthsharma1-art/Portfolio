@@ -1,176 +1,109 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
-  FileCode,
-  Server,
-  Database,
-  BookOpen,
-  Wrench,
-  Cloud,
-  type LucideIcon,
+  GraduationCap,
+  Briefcase,
+  Shield,
+  Layers,
+  Terminal,
+  Cpu,
+  CheckCircle2,
 } from 'lucide-react'
 
-interface Skill {
-  icon: LucideIcon
-  title: string
-  items: string[]
-  color: string
-}
-
-const skills: Skill[] = [
+const highlights = [
   {
-    icon: FileCode,
-    title: 'Languages',
-    items: ['Java', 'Python', 'JavaScript', 'HTML', 'CSS'],
-    color: 'from-sky-400 to-blue-500',
+    icon: Briefcase,
+    title: 'Production Experience',
+    desc: 'Engineered backend microservices, REST APIs, and automated test pipelines at AetherAI.',
   },
   {
-    icon: Server,
-    title: 'Backend',
-    items: ['Spring Boot', 'Spring Security', 'REST APIs', 'JPA / Hibernate'],
-    color: 'from-indigo-400 to-violet-500',
+    icon: Layers,
+    title: 'Concurrency & Caching',
+    desc: 'Implemented Redis-based distributed locking for booking workflows to eliminate race conditions.',
   },
   {
-    icon: Database,
-    title: 'Databases',
-    items: ['MySQL', 'MongoDB', 'Redis'],
-    color: 'from-emerald-400 to-teal-500',
+    icon: Shield,
+    title: 'Auth & Security',
+    desc: 'Protected APIs using Spring Security, JWT authentication, and Google/Apple OAuth 2.0 protocols.',
   },
   {
-    icon: BookOpen,
-    title: 'Concepts',
-    items: ['OOP', 'Data Structures & Algorithms', 'Agile'],
-    color: 'from-amber-400 to-orange-500',
-  },
-  {
-    icon: Wrench,
-    title: 'Tools',
-    items: ['Git', 'GitHub', 'Postman', 'IntelliJ IDEA', 'VS Code'],
-    color: 'from-pink-400 to-rose-500',
-  },
-  {
-    icon: Cloud,
-    title: 'Platforms',
-    items: ['AWS', 'Jira', 'Confluence', 'Slack'],
-    color: 'from-cyan-400 to-sky-500',
+    icon: GraduationCap,
+    title: 'Computer Science Graduate',
+    desc: 'B.Tech in Computer Science and Engineering (Class of 2026) with 8.0 / 10.0 CGPA.',
   },
 ]
 
-// Animated number counter using requestAnimationFrame
-function AnimatedStat({ value, label }: { value: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
-  const target = parseInt(value, 10)
-  const suffix = value.replace(/\d/g, '')
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!inView) return
-    let start: number | null = null
-    const duration = 1500
-
-    function step(timestamp: number) {
-      if (!start) start = timestamp
-      const progress = Math.min((timestamp - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.round(eased * target))
-      if (progress < 1) requestAnimationFrame(step)
-    }
-
-    const raf = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(raf)
-  }, [inView, target])
-
-  return (
-    <div ref={ref}>
-      <p className="text-4xl font-bold gradient-text mb-2">
-        {count}{suffix}
-      </p>
-      <p className="text-slate-400 text-sm tracking-wide uppercase">{label}</p>
-    </div>
-  )
-}
-
 export default function About() {
-  const gridRef = useRef<HTMLDivElement>(null)
-  const gridInView = useInView(gridRef, { once: true, margin: '-60px' })
-
   return (
-    <section id="about" aria-label="About Me" className="py-24 px-6 relative">
+    <section id="about" className="py-24 px-4 sm:px-6 relative bg-surface/40">
       <div className="max-w-6xl mx-auto">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-            About <span className="gradient-text">Me</span>
+        {/* Section Header */}
+        <div className="mb-14">
+          <span className="text-xs font-mono uppercase tracking-wider text-accent bg-accent/10 px-3 py-1 rounded-full border border-accent/20">
+            About Me
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100 mt-4 mb-4">
+            Focused on Systems That Scale and Don&apos;t Break.
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Computer Science graduate and Backend Engineer at AetherAI. I build
-            scalable REST APIs and SaaS backend systems using Java and Spring Boot.
-            Passionate about clean architecture, performance, and delivering
-            production-ready features in Agile teams.
+          <p className="text-slate-400 max-w-2xl text-base leading-relaxed">
+            I am a Java Backend Developer with a deep interest in backend architecture,
+            reliable API contracts, and concurrency control.
           </p>
-        </motion.div>
-
-        {/* Skills grid */}
-        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {skills.map((skill, i) => (
-            <motion.div
-              key={skill.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={gridInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: 'easeOut' }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="group glass rounded-2xl p-6 border border-transparent
-                         hover:border-accent/25 hover:shadow-lg hover:shadow-accent/5
-                         transition-all duration-300 ease-out will-change-transform cursor-default"
-            >
-              {/* Icon */}
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 group-hover:bg-accent/15 transition-colors duration-300 mb-3">
-                <skill.icon size={24} className="text-accent" aria-hidden="true" />
-              </div>
-
-              <h3 className="text-lg font-semibold mb-3 tracking-tight">{skill.title}</h3>
-
-              {/* Skill chips */}
-              <div className="flex flex-wrap gap-1.5">
-                {skill.items.map((item) => (
-                  <span
-                    key={item}
-                    className="px-2 py-0.5 rounded-md text-xs bg-slate-800 text-slate-400 border border-slate-700/50"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              {/* Subtle bottom accent line on hover */}
-              <div className={`mt-4 h-0.5 w-0 group-hover:w-full rounded-full bg-gradient-to-r ${skill.color} transition-all duration-500`} />
-            </motion.div>
-          ))}
         </div>
 
-        {/* Stats bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="mt-16 glass rounded-2xl p-8 md:p-12"
-        >
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <AnimatedStat value="6+" label="Projects Completed" />
-            <AnimatedStat value="80+" label="LeetCode Problems" />
-            <AnimatedStat value="1" label="Year Experience" />
+        {/* Story Grid */}
+        <div className="grid lg:grid-cols-12 gap-8 items-start mb-14">
+          {/* Narrative Paragraphs */}
+          <div className="lg:col-span-7 space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p>
+              My backend engineering journey revolves around building services that
+              handle data safely and reliably. During my work at{' '}
+              <strong className="text-white font-medium">AetherAI</strong>, I contributed to
+              a production vehicle-rental SaaS platform where I designed Spring Boot
+              REST APIs, integrated payment and webhook pipelines, and resolved
+              booking race conditions with Redis distributed locking.
+            </p>
+            <p>
+              I completed my <strong className="text-white font-medium">B.Tech in Computer Science and Engineering</strong> (Class of 2026) at IMS Engineering College, Ghaziabad. I treat backend software as an engineering discipline where API contracts must be predictable, data mutations atomic, and services thoroughly tested.
+            </p>
+            <p className="text-slate-400">
+              I am actively seeking full-time opportunities as a{' '}
+              <span className="text-accent font-medium">Java Backend Developer</span> or{' '}
+              <span className="text-accent font-medium">Software Engineer</span> where I can build
+              impactful, high-throughput systems alongside thoughtful engineering teams.
+            </p>
           </div>
-        </motion.div>
+
+          {/* Quick Pillars Grid */}
+          <div className="lg:col-span-5 grid sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
+            {highlights.map((item, idx) => {
+              const Icon = item.icon
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  className="glass-card rounded-xl p-4 border border-white/[0.06] hover:border-accent/30 transition-all flex items-start gap-3.5"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                    <Icon size={18} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-200">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )

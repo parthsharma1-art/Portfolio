@@ -1,339 +1,269 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Github, X, Tag } from 'lucide-react'
+import { motion } from 'framer-motion'
+import {
+  ExternalLink,
+  Github,
+  Server,
+  Layers,
+  Shield,
+  Zap,
+  ArrowUpRight,
+  Database,
+  CheckCircle2,
+  Lock,
+  Cpu,
+  Activity,
+  Bot,
+} from 'lucide-react'
+import ProjectCaseStudyModal, { ProjectData } from '../components/ProjectCaseStudyModal'
 
-type Category = 'All' | 'Full Stack' | 'Backend' | 'Java'
-
-interface Project {
-  name: string
-  description: string
-  longDesc: string
-  tags: string[]
-  category: Category[]
-  github: string
-  demo: string | null
-  icon: string
-  gradient: string
-}
-
-const projects: Project[] = [
+const projectsData: ProjectData[] = [
   {
-    name: 'AI-Based End-to-End Recruitment System',
+    id: 'ai-recruitment-platform',
+    title: 'AI Recruitment Platform',
+    subtitle: 'Full-stack platform with role-based dashboards, Razorpay & Redis caching',
+    badge: 'Full-Stack Platform',
+    isProfessional: false,
     description:
-      'Full-stack recruitment platform with JWT-based authentication and OAuth 2.0 for secure, role-based access.',
-    longDesc:
-      'A production-ready full-stack recruitment platform featuring JWT authentication, Google/Apple OAuth 2.0, and role-based access control. Includes job management (CRUD), near real-time chat via client-side polling, and GridFS-powered file uploads for resumes and profile images. Backend built with Spring Boot; frontend with React. Designed to handle end-to-end hiring workflows from job posting to candidate selection.',
-    tags: ['React.js', 'Spring Boot', 'MongoDB', 'JWT', 'OAuth 2.0', 'REST APIs', 'GridFS'],
-    category: ['Full Stack', 'Backend'],
-    github: 'https://github.com/parthsharma1-art/AiBasedEndtoEndRecruitmentSystemBackend',
-    demo: 'https://ai-based-endto-end-recruitment-syst.vercel.app/',
-    icon: '🤖',
-    gradient: 'from-sky-500/20 to-indigo-500/20',
+      'A full-stack platform with separate role-based dashboards for recruiters (job postings, applicants) and candidates (application tracking). Integrated Razorpay subscription checkout, JWT/OAuth 2.0 security, Redis caching, and real-time status updates.',
+    contributions: [
+      'Built a full-stack platform with separate role-based dashboards for recruiters (job postings, applicants) and candidates (application tracking)',
+      'Integrated Razorpay subscription checkout with HMAC SHA-256 webhook signature verification',
+      'Secured REST APIs with JWT, OAuth 2.0 (RBAC), and Bucket4j rate limiting; used Redis caching to cut session validation latency by 50%',
+      'Added real-time messaging and live application status updates using Supabase WebSockets',
+      'Deployed on Render (backend) and Vercel (frontend), with New Relic APM for transaction tracing and JVM monitoring',
+    ],
+    technologies: [
+      'Java 21',
+      'Spring Boot',
+      'React.js',
+      'MongoDB',
+      'Redis',
+      'Bucket4j',
+      'Supabase WebSockets',
+      'Razorpay',
+      'New Relic APM',
+    ],
+    githubUrl: 'https://github.com/parthsharma1-art/AiBasedEndtoEndRecruitmentSystemBackend',
+    demoUrl: 'https://ai-based-endto-end-recruitment-syst.vercel.app/',
+    architectureSummary:
+      'Stateless Spring Boot backend utilizing Bucket4j token-bucket filter algorithms, Redis cache layers for session verification, and Supabase WebSockets for event pushing. Monitored in production using New Relic APM for JVM health and transaction profiling.',
+    challenges: [
+      {
+        problem: 'High database lookup overhead for repeated session validation and rate-limit checks.',
+        solution: 'Employed Redis in-memory key-value caching with TTL expiry, slashing session check latency by 50%.',
+      },
+      {
+        problem: 'Ensuring payment webhook authenticity and preventing replay attacks.',
+        solution: 'Implemented strict HMAC SHA-256 cryptographic signature calculation against raw webhook payloads before mutating account tier status.',
+      },
+    ],
+    keyOutcomes: [
+      '50% reduction in session validation latency via Redis caching',
+      'Tamper-proof Razorpay payment processing with HMAC SHA-256 signature verification',
+      'Production observability via New Relic APM transaction and JVM monitoring',
+    ],
   },
   {
-    name: 'URL-Based RAG System',
+    id: 'url-based-rag-system',
+    title: 'URL-Based RAG System',
+    subtitle: 'Retrieval-Augmented Generation with Spring AI & MongoDB Atlas Vector Search',
+    badge: 'AI & Vector Search',
+    isProfessional: false,
     description:
-      'Document ingestion and retrieval-augmented generation engine powered by Spring Boot, LangChain4j, and MongoDB Atlas Vector Search.',
-    longDesc:
-      'A robust Retrieval-Augmented Generation (RAG) backend engine designed for multi-source knowledge retrieval. Automatically ingests, parses, and cleans content from diverse URL formats (HTML, PDF, DOCX, TXT, Google Drive) using Jsoup, Apache PDFBox, and Apache POI. Chunks and embeds documents using LangChain4j and Spring AI, storing vector embeddings in MongoDB Atlas Vector Search. Integrates Gemini LLM for high-accuracy contextual question-answering with verifiable source attribution.',
-    tags: ['Java 21', 'Spring Boot', 'LangChain4j', 'Spring AI', 'MongoDB Atlas', 'Vector Search', 'Gemini LLM', 'REST APIs'],
-    category: ['Backend', 'Java'],
-    github: 'https://github.com/parthsharma1-art/URL-based-RAG-system',
-    demo: null,
-    icon: '⚡',
-    gradient: 'from-cyan-500/20 to-blue-500/20',
-  },
-  {
-    name: 'Journal App',
-    description:
-      'Spring Boot journaling application with full CRUD and role-based authentication via Spring Security.',
-    longDesc:
-      'A secure journaling application built on Spring Boot with MongoDB as the data store. Implements full CRUD operations for journal entries with per-user data isolation. Authentication and authorization are handled by Spring Security with role-based access control. Exposes secured REST endpoints and follows layered backend architecture with service, repository, and controller layers.',
-    tags: ['Java', 'Spring Boot', 'MongoDB', 'Spring Security', 'REST APIs'],
-    category: ['Backend', 'Java'],
-    github: 'https://github.com/parthsharma1-art/journalApp',
-    demo: null,
-    icon: '📓',
-    gradient: 'from-violet-500/20 to-purple-500/20',
-  },
-  {
-    name: 'EW Service',
-    description:
-      'A service management platform built to streamline operations with modern web technologies.',
-    longDesc:
-      'A service management platform designed to streamline business operations and enhance user experience. The backend is powered by Spring Boot with RESTful APIs, while the frontend uses React for a responsive UI. Focuses on clean API design and separation of concerns.',
-    tags: ['Java', 'Spring Boot', 'React', 'REST API'],
-    category: ['Full Stack', 'Backend'],
-    github: 'https://github.com/parthsharma1-art/EW-Service',
-    demo: null,
-    icon: '⚙️',
-    gradient: 'from-emerald-500/20 to-teal-500/20',
-  },
-  {
-    name: 'Student Management System',
-    description:
-      'Comprehensive desktop system for managing student records, attendance, grades, and admin tasks.',
-    longDesc:
-      'A comprehensive desktop application for educational institutions to manage student records, attendance, grades, and administrative workflows. Built entirely in Java with a Swing/JavaFX GUI and MySQL as the relational database backend via JDBC. Demonstrates solid Java OOP principles and relational data modeling.',
-    tags: ['Java', 'MySQL', 'Swing/JavaFX', 'JDBC'],
-    category: ['Java'],
-    github: 'https://github.com/parthsharma1-art/Student-Management-System',
-    demo: null,
-    icon: '🎓',
-    gradient: 'from-amber-500/20 to-orange-500/20',
+      'A Retrieval-Augmented Generation pipeline that ingests web pages, chunks content, generates embeddings, and stores vectors in MongoDB Atlas for semantic search. Exposed REST APIs for content ingestion and querying that return answers grounded in the source pages.',
+    contributions: [
+      'Built a Retrieval-Augmented Generation pipeline that ingests web pages, chunks content, and generates embeddings',
+      'Stored high-dimensional vectors in MongoDB Atlas for cosine similarity semantic search',
+      'Exposed REST APIs for content ingestion and querying that return answers grounded in the source pages',
+      'Engineered overlapping token chunking preserving continuous semantic context across web documents',
+    ],
+    technologies: [
+      'Java',
+      'Spring Boot',
+      'Spring AI',
+      'MongoDB Atlas Vector Search',
+      'REST APIs',
+      'Embeddings',
+    ],
+    githubUrl: 'https://github.com/parthsharma1-art/URL-based-RAG-system',
+    demoUrl: null,
+    architectureSummary:
+      'Document ingestion and semantic retrieval pipeline built with Spring AI. Web pages are ingested and split into overlapping text chunks, embedded into vector representations, and indexed in MongoDB Atlas Vector Search for low-latency cosine similarity retrieval.',
+    challenges: [
+      {
+        problem: 'Preventing LLM hallucination and preserving exact factual accuracy from ingested web documentation.',
+        solution: 'Implemented similarity search thresholding to pass only top-k relevant grounded chunks into the LLM synthesis context window.',
+      },
+      {
+        problem: 'Ingesting variable length web pages without losing contextual continuity across splits.',
+        solution: 'Engineered an overlapping token chunking strategy ensuring continuous context across chunk boundaries.',
+      },
+    ],
+    keyOutcomes: [
+      'Sub-second semantic vector similarity search via MongoDB Atlas',
+      'Fully grounded answers referencing original URL source pages',
+      'Clean Spring AI architecture with extensible provider abstractions',
+    ],
   },
 ]
 
-const categories: Category[] = ['All', 'Full Stack', 'Backend', 'Java']
-
-// Mouse-tracking shine on each card
-function ProjectCard({ project, onClick }: { project: Project; onClick: () => void }) {
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
-    e.currentTarget.style.setProperty('--mouse-x', `${x}%`)
-    e.currentTarget.style.setProperty('--mouse-y', `${y}%`)
-  }
+export default function Projects() {
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null)
 
   return (
-    <motion.div
-      onMouseMove={handleMouseMove}
-      onClick={onClick}
-      whileHover={{ y: -8, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className="relative group glass rounded-2xl p-6 hover:border-accent/30 transition-all cursor-pointer"
-    >
-      {/* Mouse-follow shine */}
-      <div className="card-shine" />
-
-      {/* Gradient bg tint */}
-      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
-
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
-          <div className="text-3xl w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center">
-            {project.icon}
-          </div>
-          <div className="flex gap-2">
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="p-2 rounded-lg hover:bg-accent/10 transition-colors text-slate-400 hover:text-accent"
-                title="Live Demo"
-              >
-                <ExternalLink size={18} />
-              </a>
-            )}
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="p-2 rounded-lg hover:bg-accent/10 transition-colors text-slate-400 hover:text-accent"
-              title="GitHub"
-            >
-              <Github size={18} />
-            </a>
-          </div>
-        </div>
-
-        <h3 className="text-base font-bold mb-2 group-hover:text-accent transition-colors leading-snug">
-          {project.name}
-        </h3>
-        <p className="text-slate-400 text-sm mb-4 leading-relaxed line-clamp-3">
-          {project.description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="px-2 py-1 rounded-md bg-slate-800 text-slate-400 text-xs">
-              {tag}
-            </span>
-          ))}
-          {project.tags.length > 4 && (
-            <span className="px-2 py-1 rounded-md bg-slate-800 text-slate-500 text-xs">
-              +{project.tags.length - 4}
-            </span>
-          )}
-        </div>
-
-        <p className="text-accent text-xs mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          Click for details →
-        </p>
-      </div>
-    </motion.div>
-  )
-}
-
-// Modal
-function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 20 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="glass rounded-2xl p-8 max-w-2xl w-full relative border border-accent/20 shadow-2xl shadow-accent/5"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
-        >
-          <X size={20} />
-        </button>
-
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <div className="text-4xl w-14 h-14 rounded-xl bg-slate-800 flex items-center justify-center shrink-0">
-            {project.icon}
-          </div>
+    <section id="projects" className="py-24 px-4 sm:px-6 relative">
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
           <div>
-            <h3 className="text-xl font-bold">{project.name}</h3>
-            <div className="flex flex-wrap gap-1.5 mt-1">
-              {project.category.map((c) => (
-                <span key={c} className="text-xs text-accent bg-accent/10 px-2 py-0.5 rounded-full">
-                  {c}
-                </span>
-              ))}
-            </div>
+            <span className="text-xs font-mono uppercase tracking-wider text-sky-400 bg-sky-500/10 px-3 py-1 rounded-full border border-sky-500/20">
+              Selected Work
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100 mt-4 mb-2">
+              Featured Projects
+            </h2>
+            <p className="text-slate-400 max-w-xl text-sm sm:text-base">
+              Systems and platforms engineered with Java, Spring Boot, distributed caching, and vector search.
+            </p>
           </div>
-        </div>
-
-        {/* Long description */}
-        <p className="text-slate-300 text-sm leading-relaxed mb-6">{project.longDesc}</p>
-
-        {/* All tags */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 text-slate-500 text-xs mb-2">
-            <Tag size={12} /> Tech Stack
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs hover:border-accent hover:text-accent transition-colors"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Links */}
-        <div className="flex gap-3">
           <a
-            href={project.github}
+            href="https://github.com/parthsharma1-art"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-sky-400 transition-colors self-start md:self-auto"
           >
-            <Github size={16} /> View Code
+            <span>View all on GitHub</span>
+            <ArrowUpRight size={14} />
           </a>
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent text-dark text-sm font-semibold hover:bg-sky-300 transition-colors btn-glow"
-            >
-              <ExternalLink size={16} /> Live Demo
-            </a>
-          )}
         </div>
-      </motion.div>
-    </motion.div>
-  )
-}
 
-export default function Projects() {
-  const [filter, setFilter] = useState<Category>('All')
-  const [selected, setSelected] = useState<Project | null>(null)
-
-  const filtered = filter === 'All'
-    ? projects
-    : projects.filter((p) => p.category.includes(filter))
-
-  return (
-    <section id="projects" className="py-24 px-6 relative">
-      <div className="max-w-6xl mx-auto">
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-10"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            A collection of my recent work. Click any card to see details.
-          </p>
-        </motion.div>
-
-        {/* Filter tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex flex-wrap items-center justify-center gap-2 mb-10"
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-                filter === cat
-                  ? 'bg-accent text-dark shadow-[0_0_15px_rgba(56,189,248,0.4)]'
-                  : 'glass text-slate-400 hover:text-accent hover:border-accent/30'
-              }`}
+        {/* Project Cards Grid */}
+        <div className="space-y-8">
+          {projectsData.map((project, idx) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              className="glass-card rounded-2xl p-5 sm:p-8 border border-slate-800/80 hover:border-sky-500/30 relative overflow-hidden group bg-surface-card/60"
             >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
+              <div className="grid lg:grid-cols-12 gap-8 items-start">
+                {/* Project Left Info */}
+                <div className="lg:col-span-8 flex flex-col justify-between h-full">
+                  <div>
+                    {/* Badges */}
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                        {project.badge}
+                      </span>
+                    </div>
 
-        {/* Cards grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
-              <motion.div
-                key={project.name}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: i * 0.07, duration: 0.4 }}
-              >
-                <ProjectCard project={project} onClick={() => setSelected(project)} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                    {/* Title & Description */}
+                    <h3 className="text-2xl font-bold text-slate-100 mb-2 group-hover:text-sky-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                      {project.description}
+                    </p>
+
+                    {/* Key Contributions Checklist */}
+                    <div className="mb-6">
+                      <p className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2.5">
+                        Key Engineering Highlights:
+                      </p>
+                      <ul className="grid sm:grid-cols-2 gap-2">
+                        {project.contributions.slice(0, 4).map((c, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-xs text-slate-300 leading-normal"
+                          >
+                            <span className="text-sky-400 mt-0.5 shrink-0 font-bold">▸</span>
+                            <span>{c}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Technologies Badges */}
+                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-800/60">
+                    {project.technologies.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-900/90 text-slate-300 border border-slate-800"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Project Right Column: Architecture Box & Actions */}
+                <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-4">
+                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                    <div className="flex items-center gap-2 text-sky-400 mb-2">
+                      <Server size={15} />
+                      <span className="text-[11px] font-mono font-semibold uppercase">
+                        Architecture Focus
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed font-sans line-clamp-4">
+                      {project.architectureSummary}
+                    </p>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedProject(project)}
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-100 hover:text-white text-xs font-semibold border border-slate-700 hover:border-sky-500/50 transition-all cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <span>View Case Study</span>
+                      <ArrowUpRight size={14} className="text-sky-400" />
+                    </button>
+
+                    <div className="flex items-center gap-2">
+                      {project.githubUrl && (
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 py-2 px-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-xs font-medium text-slate-300 hover:text-white transition-colors flex items-center justify-center gap-1.5"
+                        >
+                          <Github size={13} />
+                          <span>Code</span>
+                        </a>
+                      )}
+                      {project.demoUrl && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 py-2 px-3 rounded-xl bg-sky-500 text-slate-950 text-xs font-semibold hover:bg-sky-400 transition-colors flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(56,189,248,0.3)]"
+                        >
+                          <ExternalLink size={13} />
+                          <span>Live Demo</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {selected && (
-          <ProjectModal project={selected} onClose={() => setSelected(null)} />
-        )}
-      </AnimatePresence>
+      {/* Case Study Modal */}
+      <ProjectCaseStudyModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   )
 }
