@@ -64,9 +64,9 @@ export default function Hero() {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="flex items-center gap-3.5 mb-6"
             >
-              <div className="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-accent to-indigo-500 shadow-lg">
+              <div className="relative w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-accent to-indigo-500 shadow-lg shrink-0">
                 <img
-                  src="https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo.png"
+                  src="https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo%20(19KB).jpeg?updatedAt=1791285214088"
                   alt="Parth Sharma"
                   className="w-full h-full object-cover rounded-full bg-slate-900"
                 />
