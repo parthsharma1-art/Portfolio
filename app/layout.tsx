@@ -27,6 +27,14 @@ export const metadata: Metadata = {
     url: 'https://github.com/parthsharma1-art',
     siteName: 'Parth Sharma Portfolio',
     type: 'website',
+    images: [
+      {
+        url: 'https://ik.imagekit.io/xuh3db9z6/ParthSharma_Photo%20(19KB).jpeg?updatedAt=1791285214088',
+        width: 800,
+        height: 800,
+        alt: 'Parth Sharma',
+      },
+    ],
   },
   icons: {
     icon: '/favicon.svg',
