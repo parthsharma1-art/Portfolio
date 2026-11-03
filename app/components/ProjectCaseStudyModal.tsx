@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ExternalLink, Github, CheckCircle2, Shield, Layers, Cpu, Server } from 'lucide-react'
+import { X, ExternalLink, Github, CheckCircle2, Shield, Layers, Cpu, Server, Trophy } from 'lucide-react'
 
 export interface ProjectData {
   id: string
@@ -87,11 +87,33 @@ export default function ProjectCaseStudyModal({
               <p className="leading-relaxed text-slate-300">{project.description}</p>
             </div>
 
-            {/* Backend Contributions */}
+            {/* Key Outcomes & Metrics */}
+            {project.keyOutcomes && project.keyOutcomes.length > 0 && (
+              <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/20">
+                <div className="flex items-center gap-2 mb-2 text-sky-400">
+                  <Trophy size={16} />
+                  <h3 className="text-xs font-mono uppercase tracking-wider font-semibold">
+                    Key Outcomes &amp; Measurable Impact
+                  </h3>
+                </div>
+                <ul className="grid sm:grid-cols-2 gap-2 mt-2">
+                  {project.keyOutcomes.map((outcome, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                      <span className="text-sky-400 font-bold">★</span>
+                      <span>{outcome}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Engineering Contributions */}
             <div>
-              <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3">
-                My Backend Contributions
-              </h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                  Key Engineering Contributions &amp; Highlights ({project.contributions.length})
+                </h3>
+              </div>
               <ul className="grid sm:grid-cols-2 gap-2.5">
                 {project.contributions.map((c, i) => (
                   <li

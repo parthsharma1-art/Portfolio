@@ -1,5 +1,5 @@
 export interface ResumeConfig {
-  id: 'java-backend' | 'software-engineer'
+  id: 'software-developer' | 'software-engineer' | 'java-backend'
   title: string
   targetRoles: string
   description: string
@@ -11,34 +11,31 @@ export interface ResumeConfig {
   badge?: string
 }
 
-export const JAVA_BACKEND_RESUME_URL: string =
+export const SOFTWARE_DEVELOPER_RESUME_URL: string =
+  process.env.NEXT_PUBLIC_SOFTWARE_DEVELOPER_RESUME_URL ||
   process.env.NEXT_PUBLIC_JAVA_BACKEND_RESUME_URL ||
-  'https://ik.imagekit.io/xuh3db9z6/Parth_Sharma_Resume.pdf'
-
-export const SOFTWARE_ENGINEER_RESUME_URL: string =
-  process.env.NEXT_PUBLIC_SOFTWARE_ENGINEER_RESUME_URL ||
-  'https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareEngineer_Resume.pdf'
+  'https://ik.imagekit.io/xuh3db9z6/Parth_Sharma_Software_Developer_Resume.pdf'
 
 export const RESUME_CONFIGS: ResumeConfig[] = [
   {
-    id: 'java-backend',
-    title: 'Java Backend Developer',
-    targetRoles: 'For Java Developer, Java Backend Developer, and Spring Boot Backend Engineer positions.',
-    description: 'Java, Spring Boot, REST APIs, backend development, and related engineering experience.',
-    url: JAVA_BACKEND_RESUME_URL,
-    filename: 'Parth_Sharma_Java_Backend_Resume.pdf',
-    downloadLabel: 'Download Java Backend Resume',
+    id: 'software-developer',
+    title: 'Software Developer (Java & Backend)',
+    targetRoles: 'For Software Developer, Java Developer, and Spring Boot Backend Engineer positions.',
+    description: 'Java 21, Spring Boot 3, REST APIs, Microservices, Spring AI, MCP, Redis caching, and Cloud deployments.',
+    url: SOFTWARE_DEVELOPER_RESUME_URL,
+    filename: 'Parth_Sharma_Software_Developer_Resume.pdf',
+    downloadLabel: 'Download Resume (PDF)',
     viewLabel: 'View Resume',
     isPrimary: true,
-    badge: 'Primary Resume',
+    badge: 'Updated Resume',
   },
   {
     id: 'software-engineer',
-    title: 'Software Engineer',
-    targetRoles: 'For general Software Engineer and entry-level software development positions.',
-    description: 'General software engineering, programming, problem-solving, software development, and relevant projects.',
-    url: SOFTWARE_ENGINEER_RESUME_URL,
-    filename: 'Parth_Sharma_Software_Engineer_Resume.pdf',
+    title: 'Software Engineer (Full-Stack & Systems)',
+    targetRoles: 'For Software Engineer, Full-Stack Developer, and Distributed Systems roles.',
+    description: 'Full-stack system architecture, Spring AI, React 18, Supabase WebSockets, Docker, AWS, and Gemini AI.',
+    url: SOFTWARE_DEVELOPER_RESUME_URL,
+    filename: 'Parth_Sharma_Software_Developer_Resume.pdf',
     downloadLabel: 'Download Software Engineer Resume',
     viewLabel: 'View Resume',
     isPrimary: false,

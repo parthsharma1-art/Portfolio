@@ -10,19 +10,33 @@ import {
   Layers,
   Terminal,
   Cloud,
+  Sparkles,
+  Smartphone,
 } from 'lucide-react'
 
 const skillGroups = [
   {
-    category: 'Backend Engineering',
+    category: 'Backend & Microservices',
     icon: Server,
     color: 'text-sky-400 bg-sky-500/10 border-sky-500/20',
     skills: [
-      { name: 'Java (Java 21 LTS)', note: 'Core language, OOP & modern syntax' },
-      { name: 'Spring Boot 3.x', note: 'Microservices & REST controllers' },
-      { name: 'REST APIs & Webhooks', note: 'Idempotent contracts, DTOs & event streams' },
-      { name: 'Spring Security', note: 'Method-level RBAC & filter chains' },
-      { name: 'Hibernate / Spring Data JPA', note: 'Object-relational mapping & queries' },
+      { name: 'Java 21 LTS', note: 'Core language, OOP, modern syntax & concurrency' },
+      { name: 'Spring Boot 3.x', note: 'Microservices, Spring MVC & REST controllers' },
+      { name: 'Hibernate & JPA', note: 'Data mapping, transaction boundaries & queries' },
+      { name: 'REST APIs & Webhooks', note: 'Idempotent contracts, DTOs & Razorpay webhooks' },
+      { name: 'FastAPI (Python)', note: 'Asynchronous AI workloads & microservices' },
+    ],
+  },
+  {
+    category: 'Generative AI & MCP Tools',
+    icon: Sparkles,
+    color: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+    skills: [
+      { name: 'Model Context Protocol (MCP)', note: 'Native MCP servers over SSE for autonomous LLM agents' },
+      { name: 'Spring AI', note: 'Agent tools, embeddings & structured model completions' },
+      { name: 'Google Gemini & Vision API', note: 'ATS resume semantic scoring & handwritten OCR' },
+      { name: 'Vector Search & Embeddings', note: 'MongoDB Atlas vector store & cosine similarity search' },
+      { name: 'Tesseract OCR Pipeline', note: 'Bilingual handwritten text digitization & verification' },
     ],
   },
   {
@@ -30,42 +44,46 @@ const skillGroups = [
     icon: Database,
     color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
     skills: [
-      { name: 'MongoDB & Atlas', note: 'Document schemas, GridFS & vector search' },
-      { name: 'Redis', note: 'In-memory caching, distributed locks & TTL' },
-      { name: 'MySQL', note: 'Relational data modeling & SQL' },
+      { name: 'MongoDB & Atlas GridFS', note: 'Document schemas, GridFS resume storage & sequences' },
+      { name: 'Redis (Upstash / TLS)', note: 'Distributed caching, session states & rate-limiting' },
+      { name: 'Supabase (PostgreSQL)', note: 'Realtime WebSockets, custom JWTs & Row-Level Security' },
+      { name: 'MySQL & Relational SQL', note: 'Normalized schemas, indexing & transactional ACID' },
     ],
   },
   {
-    category: 'Security & Integrations',
+    category: 'Security & Authentication',
     icon: ShieldCheck,
     color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
     skills: [
-      { name: 'OAuth 2.0 & JWT', note: 'Google & Apple login, token rotation & cookies' },
-      { name: 'Role-Based Access Control', note: 'Strict candidate & recruiter authorization' },
-      { name: 'Payment Integrations', note: 'Stripe & Razorpay HMAC-SHA256 webhooks' },
-      { name: 'Email APIs', note: 'Mailgun, Gmail, and Outlook synchronization' },
+      { name: 'Spring Security 6', note: 'Stateless filter chains, BCrypt & method security' },
+      { name: 'OAuth 2.0 & Stateless JWT', note: 'Google & Apple social login, refresh-token rotation' },
+      { name: 'Role-Based Access Control', note: 'Strict Candidate, Recruiter & Admin authorization' },
+      { name: 'Bot Protection & Rate Limiting', note: 'Google reCAPTCHA Enterprise & Bucket4j token bucket' },
+      { name: 'Cryptographic Verification', note: 'HMAC SHA-256 webhook signatures & secure headers' },
     ],
   },
   {
-    category: 'Testing & Tools',
-    icon: Terminal,
-    color: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+    category: 'Frontend, PWA & Mobile',
+    icon: Smartphone,
+    color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20',
     skills: [
-      { name: 'Playwright', note: 'Automated end-to-end regression tests' },
-      { name: 'Postman & Git/GitHub', note: 'API contract validation & version control' },
-      { name: 'GitHub Actions', note: 'CI pipelines & pull-request validation' },
-      { name: 'Jira & Agile', note: 'Sprint issue tracking & rapid release cycles' },
+      { name: 'React 18 & Vite', note: 'Modern responsive SPAs with hooks & fast bundling' },
+      { name: 'Capacitor 8 (Android APK)', note: 'Cross-platform mobile wrapper & native Android builds' },
+      { name: 'Progressive Web Apps (PWA)', note: 'Service workers, offline asset caching & 60fps mobile' },
+      { name: 'Tailwind CSS & CSS Modules', note: 'Dark/light glassmorphic UI & rural accessibility' },
+      { name: 'WebSockets & Live Polling', note: 'Bidirectional chat systems & real-time notifications' },
     ],
   },
   {
-    category: 'Cloud & Monitoring',
+    category: 'Cloud, DevOps & Testing',
     icon: Cloud,
     color: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
     skills: [
-      { name: 'AWS CloudWatch', note: 'Log stream debugging & metrics monitoring' },
-      { name: 'New Relic APM', note: 'Transaction tracing & JVM runtime monitoring' },
-      { name: 'Render & Vercel', note: 'Backend container & static frontend deploys' },
-      { name: 'Data Structures & Algorithms', note: 'Algorithmic problem solving & OOP design' },
+      { name: 'AWS (EC2, S3, Load Balancer)', note: 'Cloud infrastructure, asset storage & CloudWatch logs' },
+      { name: 'Docker & Containerization', note: 'Multi-stage container builds & reproducible environments' },
+      { name: 'GitHub Actions (CI/CD)', note: 'Automated test, build & deployment pipelines' },
+      { name: 'New Relic APM', note: 'JVM heap profiling, transaction tracing & telemetry' },
+      { name: 'Playwright & Testing', note: 'End-to-end regression suites, Postman & JUnit 5' },
     ],
   },
 ]
@@ -80,10 +98,10 @@ export default function Skills() {
             Technical Stack
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-100 mt-4 mb-2">
-            Technical Skills &amp; Tools
+            Technical Skills &amp; Capabilities
           </h2>
           <p className="text-slate-400 max-w-xl text-sm sm:text-base">
-            Structured into practical backend disciplines, production tools, and verified proficiencies.
+            Structured into practical engineering disciplines, Generative AI integration, cloud infrastructure, and verified proficiencies.
           </p>
         </div>
 

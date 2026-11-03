@@ -124,7 +124,7 @@ export default function Hero() {
                 type="button"
                 onClick={handleDownload}
                 disabled={isDownloading}
-                aria-label="Download Java Backend Resume"
+                aria-label={PRIMARY_RESUME.downloadLabel}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full glass text-slate-200 hover:text-white hover:border-accent/40 font-semibold text-sm transition-all cursor-pointer shadow-sm disabled:opacity-50 text-center"
               >
                 <Download size={16} className="text-accent" />

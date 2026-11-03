@@ -56,8 +56,8 @@ NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
 
 # Custom ImageKit CDN Resume URLs (defaults to production files if omitted)
-NEXT_PUBLIC_RESUME_BACKEND_URL=https://ik.imagekit.io/xuh3db9z6/Parth_Sharma_Resume.pdf
-NEXT_PUBLIC_RESUME_SWE_URL=https://ik.imagekit.io/xuh3db9z6/ParthSharma_SoftwareEngineer_Resume.pdf
+NEXT_PUBLIC_SOFTWARE_DEVELOPER_RESUME_URL=https://ik.imagekit.io/xuh3db9z6/Parth_Sharma_Software_Developer_Resume.pdf
+NEXT_PUBLIC_SOFTWARE_ENGINEER_RESUME_URL=https://ik.imagekit.io/xuh3db9z6/Parth_Sharma_Software_Developer_Resume.pdf
 ```
 
 ### Running Locally

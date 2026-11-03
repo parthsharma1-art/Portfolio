@@ -16,54 +16,136 @@ import {
   Cpu,
   Activity,
   Bot,
+  Sparkles,
+  Smartphone,
 } from 'lucide-react'
 import ProjectCaseStudyModal, { ProjectData } from '../components/ProjectCaseStudyModal'
 
 const projectsData: ProjectData[] = [
   {
     id: 'ai-recruitment-platform',
-    title: 'AI Recruitment Platform',
-    subtitle: 'Full-stack platform with role-based dashboards, Razorpay & Redis caching',
-    badge: 'Full-Stack Platform',
+    title: 'AI-Powered Recruitment & Talent Intelligence SaaS',
+    subtitle: 'Full-stack distributed system with Spring AI, Model Context Protocol (MCP) server & Gemini ATS',
+    badge: 'Microservices & GenAI',
     isProfessional: false,
     description:
-      'A full-stack platform with separate role-based dashboards for recruiters (job postings, applicants) and candidates (application tracking). Integrated Razorpay subscription checkout, JWT/OAuth 2.0 security, Redis caching, and real-time status updates.',
+      'A full-stack, distributed AI recruitment platform featuring autonomous LLM agents, an MCP server, ATS resume scoring with Gemini API, and dynamic technical interview simulators. Built with Spring Boot (Java 21) for core business logic, FastAPI (Python) for asynchronous AI workloads, and React 18 (Vite) for responsive candidate and recruiter portals.',
     contributions: [
-      'Built a full-stack platform with separate role-based dashboards for recruiters (job postings, applicants) and candidates (application tracking)',
-      'Integrated Razorpay subscription checkout with HMAC SHA-256 webhook signature verification',
-      'Secured REST APIs with JWT, OAuth 2.0 (RBAC), and Bucket4j rate limiting; used Redis caching to cut session validation latency by 50%',
-      'Added real-time messaging and live application status updates using Supabase WebSockets',
-      'Deployed on Render (backend) and Vercel (frontend), with New Relic APM for transaction tracing and JVM monitoring',
+      'Microservices Architecture & Orchestration: Architected a distributed platform using Spring Boot (Java 21), FastAPI (Python), and React 18 (Vite) for recruiter and candidate portals, cutting candidate screening turnaround time by over 70%.',
+      'Spring AI & Model Context Protocol (MCP) Server: Engineered a native Model Context Protocol (MCP) server with Spring AI exposing recruitment tools (CandidateMcpTools, JobMcpTools) over SSE endpoints, enabling autonomous LLM agents to query databases and execute workflows in real time.',
+      'AI-Powered ATS Resume Parsing & Semantic Matching: Implemented an intelligent ATS screening engine using Google Gemini API and semantic vector embeddings, parsing multi-format resumes (PDF/DOCX) and calculating ATS match scores against dynamic job requirements.',
+      'Dynamic AI Technical Assessment & Interview Engine: Developed an automated candidate evaluation pipeline featuring dynamic technical test generation and an interactive, multi-turn AI interview simulator with real-time response evaluation and scoring rubrics.',
+      'Enterprise Security, OAuth2 & Bot Protection: Secured public and private endpoints using Spring Security 6 with stateless JWT, role-based access control (RBAC), dual Google OAuth2 social login, and Google reCAPTCHA Enterprise scoring to prevent automated bot submissions.',
+      'Multi-Tier Distributed Caching with Resilient Fallback: Designed a low-latency data access strategy integrating Upstash Redis (TLS) for token blacklisting, session state, and OTP rate-limiting, engineering an in-memory JVM failover mechanism to maintain 99.9% auth service availability during cache outages.',
+      'Real-Time Chat & Collaborative Event System: Integrated Supabase PostgreSQL with Realtime WebSockets using backend-minted custom JWT tokens and Row-Level Security (RLS), enabling instantaneous bi-directional candidate-recruiter messaging and live recruitment notifications.',
+      'Automated Payment Gateways & Subscription Webhooks: Built an end-to-end monetization module integrating Razorpay Payment Gateway with cryptographically verified HMAC SHA-256 webhook handlers, enabling secure transaction processing and tiered recruiter subscription upgrades.',
+      'Asynchronous Cron Pipelines & Zero-Cold-Start Optimization: Engineered asynchronous scheduled batch processors (@Scheduled cron jobs) for periodic resume shortlist evaluation and automated microservice keep-alive pings, eliminating Render/Cloud server cold starts and reducing API latency by ~85%.',
+      'Transactional Communication & Production Observability: Integrated Brevo (Sendinblue) transactional email APIs for automated candidate alerts and verification OTPs, while instrumenting New Relic APM for JVM heap profiling, database transaction tracing, and production telemetry.',
     ],
     technologies: [
       'Java 21',
-      'Spring Boot',
-      'React.js',
-      'MongoDB',
-      'Redis',
-      'Bucket4j',
+      'Spring Boot 3',
+      'Spring AI',
+      'MCP Server',
+      'FastAPI (Python)',
+      'React 18',
+      'Google Gemini API',
+      'Redis (Upstash)',
+      'MongoDB GridFS',
       'Supabase WebSockets',
+      'Spring Security 6',
       'Razorpay',
+      'Docker',
       'New Relic APM',
     ],
     githubUrl: 'https://github.com/parthsharma1-art/AiBasedEndtoEndRecruitmentSystemBackend',
     demoUrl: 'https://ai-based-endto-end-recruitment-syst.vercel.app/',
     architectureSummary:
-      'Stateless Spring Boot backend utilizing Bucket4j token-bucket filter algorithms, Redis cache layers for session verification, and Supabase WebSockets for event pushing. Monitored in production using New Relic APM for JVM health and transaction profiling.',
+      'Distributed microservices architecture utilizing Spring Boot (Java 21) for transaction-heavy business logic and an SSE-based Spring AI MCP server, paired with FastAPI for Python-based AI embeddings and vector similarity pipelines. Secured via Spring Security 6 with Upstash Redis TLS caching, Supabase Realtime WebSockets for bidirectional event streams, and New Relic APM telemetry in production.',
     challenges: [
       {
-        problem: 'High database lookup overhead for repeated session validation and rate-limit checks.',
-        solution: 'Employed Redis in-memory key-value caching with TTL expiry, slashing session check latency by 50%.',
+        problem: 'Severe cloud container cold starts and high latency during scheduled batch applicant evaluations.',
+        solution: 'Engineered asynchronous @Scheduled cron pipelines with microservice keep-alive pings and background evaluation threads, eliminating cold starts and reducing API latency by ~85%.',
       },
       {
-        problem: 'Ensuring payment webhook authenticity and preventing replay attacks.',
-        solution: 'Implemented strict HMAC SHA-256 cryptographic signature calculation against raw webhook payloads before mutating account tier status.',
+        problem: 'Auth service downtime risk and token validation bottlenecks during external Redis cache degradation.',
+        solution: 'Designed a multi-tier caching architecture with Upstash Redis (TLS) and an automatic in-memory JVM failover mechanism, maintaining 99.9% auth service availability.',
+      },
+      {
+        problem: 'Enabling autonomous AI agents to query candidate profiles and execute recruitment actions without compromising data security.',
+        solution: 'Engineered a native Model Context Protocol (MCP) server using Spring AI over SSE, exposing fine-grained tools (CandidateMcpTools, JobMcpTools) with strict RBAC authorization.',
       },
     ],
     keyOutcomes: [
-      '50% reduction in session validation latency via Redis caching',
-      'Tamper-proof Razorpay payment processing with HMAC SHA-256 signature verification',
-      'Production observability via New Relic APM transaction and JVM monitoring',
+      'Cut candidate screening turnaround time by over 70% with Spring AI, MCP server, and Gemini ATS scoring',
+      'Achieved 99.9% auth service availability through multi-tier Redis TLS caching and in-memory JVM failover',
+      '~85% API latency reduction via asynchronous scheduled cron batch processors and keep-alive pingers',
+      'Tamper-proof monetization via cryptographically verified Razorpay webhooks and tiered subscriptions',
+    ],
+  },
+  {
+    id: 'milk-management-system',
+    title: 'Milk Management System (Smart Dairy Operations & Billing)',
+    subtitle: 'Full-stack dairy SaaS platform with AI/OCR handwritten register digitization & mobile PWA',
+    badge: 'Full-Stack SaaS & AI/OCR',
+    isProfessional: false,
+    description:
+      'A scalable full-stack dairy management platform digitizing end-to-end milk collection, bilingual customer ledgers, daily shift procurement, and automated billing. Integrates an AI-powered OCR pipeline (Gemini Vision API & Tesseract OCR) to scan and digitize handwritten Hindi/English registers into atomic ledger entries, paired with a Capacitor cross-platform mobile PWA.',
+    contributions: [
+      'Full-Stack System Architecture: Architected a scalable full-stack dairy management platform using Spring Boot 3 (Java 21), MongoDB Atlas, and React 18 (Vite) to digitize end-to-end milk collection, inventory management, billing, and customer ledgers.',
+      'Automated Register OCR & Handwritten Digitization: Engineered an AI-powered OCR pipeline using Google Gemini Vision API & Tesseract to scan handwritten Hindi/English milk registers with 88%+ confidence, featuring an interactive human-in-the-loop verification workflow before ledger commit.',
+      'Bilingual Search & Phonetic Matching Engine: Implemented an intelligent bilingual search system (Hindi & English) with transliteration and phonetic fallback algorithms, enabling operators to look up customers seamlessly in both Devanagari script and Latin text.',
+      'Dynamic Tiered Pricing & Rate Engine: Designed an automated milk pricing engine supporting date-effective pricing, animal types (Cow vs. Buffalo), and customized rates per customer, completely replacing manual calculations and eliminating billing discrepancies.',
+      'Split-Shift Daily Milk Ledger: Developed daily procurement tracking supporting Morning/Evening shift entries, automated Absent/Present status derivation, mandatory operator notes for zero-quantity records, and real-time ledger updates.',
+      'Automated Billing & Invoice Generation: Created an automated monthly billing engine with BigDecimal precision aggregating daily milk records, calculating deductions/advances, and generating downloadable PDF invoices with QR-based digital payment links.',
+      'Cross-Platform Mobile PWA & Capacitor Android App: Configured Capacitor 8 and modern PWA service workers with offline asset caching and APK builds, delivering an app-store-ready Android app with smooth 60fps mobile touch interactions.',
+      'Real-Time 1-on-1 Customer Support Chat: Built a bidirectional in-app chat system with auto-refresh polling, unread badges, quick-reply templates, and in-conversation text search between dairy administrators and customers.',
+      'Secure Multi-Role RBAC & JWT Authentication: Implemented Spring Security 6 with stateless JWT tokens, enforcing Role-Based Access Control (Admin vs. Customer) with BCrypt password hashing, session revocation, and secure route guards.',
+      'Customer Onboarding & Notification Service: Built an adaptive customer registration workflow allowing immediate account creation with gradual profile enrichment and automated alerts for transaction updates and bill releases.',
+      'Responsive Glassmorphism & Accessible UI/UX: Designed a modern, dark/light theme responsive dashboard in React with Vanilla CSS Modules & Lucide Icons, optimized for desktop operators and low-bandwidth mobile environments in rural areas.',
+      'Data Consistency & MongoDB Transaction Management: Structured custom sequence generators for auto-incrementing customer codes (customer_10001+), milk entry IDs, and invoice IDs with atomic operations to prevent duplicate sequence collision during concurrent write spikes.',
+      'Comprehensive Financial Ledger & Payment Reconciliation: Developed customer balance sheets tracking cash advances, partial online payments, pending dues, and ledger history with export capabilities (Excel/PDF) for audit readiness.',
+      'Performance & Build Optimization: Optimized frontend asset bundling with Vite tree-shaking and dynamic imports, reducing production bundle size to under 650 KB gzip and achieving sub-second initial page load times.',
+      'Production CI/CD & Cloud Deployment: Configured containerized deployments with Docker, AWS EC2, S3 asset storage, Load Balancer, and automated build scripts for seamless continuous deployment.',
+    ],
+    technologies: [
+      'Java 21',
+      'Spring Boot 3.3',
+      'React 18',
+      'Vite',
+      'MongoDB Atlas',
+      'Google Gemini Vision API',
+      'Tesseract OCR',
+      'Capacitor (Android APK)',
+      'Spring Security 6',
+      'JWT & RBAC',
+      'PWA Service Workers',
+      'Docker',
+      'AWS (EC2, S3)',
+    ],
+    githubUrl: 'https://github.com/parthsharma1-art/MilkManagementSystem-Frontend',
+    demoUrl: 'https://milk-management-system1.vercel.app/',
+    architectureSummary:
+      'Spring Boot 3 backend leveraging MongoDB atomic sequence generators and BigDecimal precision accounting, paired with an intelligent OCR pipeline utilizing Gemini Vision API and Tesseract OCR. Fronted by a Vite React 18 responsive PWA compiled to a native Android APK via Capacitor 8 for rural, offline-tolerant mobile use.',
+    challenges: [
+      {
+        problem: 'Deciphering illegible handwritten milk collection registers written by rural operators in mixed Hindi/English scripts without ledger corruption.',
+        solution: 'Engineered a dual OCR pipeline combining Google Gemini Vision API and Tesseract OCR with an interactive human-in-the-loop verification workflow before ledger commit, achieving 88%+ scan confidence.',
+      },
+      {
+        problem: 'Floating-point rounding errors and sequence collision risks during simultaneous shift-entry writes by multiple milk collectors.',
+        solution: 'Enforced strict BigDecimal arithmetic across all billing engines and structured custom MongoDB atomic sequence generators for unique customer codes and entry IDs.',
+      },
+      {
+        problem: 'Delivering desktop-grade ledger functionality to dairy operators in low-bandwidth rural conditions and mobile smartphones.',
+        solution: 'Configured Capacitor 8 with offline PWA service worker asset caching and Vite tree-shaking (<650 KB gzip bundle), ensuring smooth 60fps mobile touch performance.',
+      },
+    ],
+    keyOutcomes: [
+      '88%+ confidence handwritten register OCR parsing with human-in-the-loop ledger verification',
+      '100% elimination of manual pricing discrepancies through automated BigDecimal shift calculation',
+      'Dual deployment: Live Web SaaS + Capacitor Android APK with offline PWA caching under 650 KB gzip',
+      'Sub-second bilingual customer lookups across Devanagari and Latin script with phonetic fallback',
     ],
   },
   {
@@ -126,7 +208,7 @@ export default function Projects() {
               Featured Projects
             </h2>
             <p className="text-slate-400 max-w-xl text-sm sm:text-base">
-              Systems and platforms engineered with Java, Spring Boot, distributed caching, and vector search.
+              Production-grade systems and platforms engineered with Java 21, Spring Boot, Spring AI, distributed caching, OCR pipelines, and mobile PWAs.
             </p>
           </div>
           <a
@@ -172,10 +254,15 @@ export default function Projects() {
 
                     {/* Key Contributions Checklist */}
                     <div className="mb-6">
-                      <p className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2.5">
-                        Key Engineering Highlights:
-                      </p>
-                      <ul className="grid sm:grid-cols-2 gap-2">
+                      <div className="flex items-center justify-between mb-2.5">
+                        <p className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                          Key Engineering Highlights:
+                        </p>
+                        <span className="text-[11px] font-mono text-sky-400/80">
+                          {project.contributions.length} technical points · Click Case Study for full breakdown
+                        </span>
+                      </div>
+                      <ul className="grid sm:grid-cols-2 gap-2.5">
                         {project.contributions.slice(0, 4).map((c, i) => (
                           <li
                             key={i}
@@ -221,9 +308,9 @@ export default function Projects() {
                     <button
                       type="button"
                       onClick={() => setSelectedProject(project)}
-                      className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-100 hover:text-white text-xs font-semibold border border-slate-700 hover:border-sky-500/50 transition-all cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-100 hover:text-white text-xs font-semibold border border-slate-700 hover:border-sky-500/50 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
                     >
-                      <span>View Case Study</span>
+                      <span>View Case Study ({project.contributions.length} Highlights)</span>
                       <ArrowUpRight size={14} className="text-sky-400" />
                     </button>
 

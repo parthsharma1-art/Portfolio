@@ -84,7 +84,7 @@ export default function CommandMenu({
     {
       id: 'nav-projects',
       title: 'Featured Projects',
-      subtitle: 'AetherAI, Recruitment Platform & Systems',
+      subtitle: 'AI Recruitment, Milk Management & RAG Systems',
       icon: Layers,
       category: 'Navigation',
       action: () => navigateTo('projects'),
@@ -129,12 +129,12 @@ export default function CommandMenu({
     // Resumes
     {
       id: 'resume-java',
-      title: 'Download Java Backend Resume',
-      subtitle: 'Primary Resume · Target: Java & Spring Boot roles',
+      title: 'Download Software Developer Resume',
+      subtitle: 'Primary Resume · Software Developer (Java, Spring Boot, Microservices)',
       icon: Download,
       category: 'Resumes',
       action: () => {
-        const javaResume = RESUME_CONFIGS.find((r) => r.id === 'java-backend')
+        const javaResume = RESUME_CONFIGS.find((r) => r.id === 'software-developer') || RESUME_CONFIGS[0]
         if (javaResume) downloadResumeFile(javaResume.url, javaResume.filename)
         onClose()
       },
